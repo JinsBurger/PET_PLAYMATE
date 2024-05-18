@@ -1,5 +1,5 @@
 #ifndef _PIN_INCLUDE
-#define  _PIN_INCLUDE
+#define _PIN_INCLUDE
 
 /* **** MOTOR **** */
 #define PIN_MOTOR_L1 13
