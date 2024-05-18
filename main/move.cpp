@@ -10,13 +10,19 @@ class Move {
       pinMode(PIN_L2, OUTPUT); 
       pinMode(PIN_R1, OUTPUT);
       pinMode(PIN_R2, OUTPUT);
+      pinMode(11, OUTPUT);
+      pinMode(6, OUTPUT);
     }
 
     void move1() {
-      digitalWrite(PIN_L1, HIGH);
-      digitalWrite(PIN_L2, LOW);   //앞으로 회전
+      analogWrite(11, 255);
+    digitalWrite(PIN_L1, LOW);
+    digitalWrite(PIN_L2, HIGH);   //앞으로 회전
+      
       digitalWrite(PIN_R1, HIGH);
       digitalWrite(PIN_R2, LOW);   //앞으로 회
+
+    analogWrite(6, 255);
     }
 
   private:
