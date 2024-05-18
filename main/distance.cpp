@@ -5,6 +5,8 @@ class Distance {
     Distance(int tp, int ep) {
       trig_pin = tp;
       echo_pin = ep;
+      pinMode(trig_pin, OUTPUT);
+      pinMode(echo_pin, INPUT); 
     }
 
     unsigned int get_distance() {

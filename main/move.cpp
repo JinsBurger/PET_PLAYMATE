@@ -5,6 +5,11 @@ class Move {
   Move(int l1, int l2, int r1, int r2) { 
     PIN_L1 = l1; PIN_L2 = l2;
     PIN_R1 = r1; PIN_R2 = r2;
+    
+    pinMode(PIN_L1, OUTPUT); 
+    pinMode(PIN_L2, OUTPUT); 
+    pinMode(PIN_R1, OUTPUT);
+    pinMode(PIN_R2, OUTPUT);
   }
 
   void move1() {
