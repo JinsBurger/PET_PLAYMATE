@@ -16,13 +16,13 @@ class Move {
 
     void move1() {
       analogWrite(11, 255);
-    digitalWrite(PIN_L1, LOW);
-    digitalWrite(PIN_L2, HIGH);   //앞으로 회전
+      digitalWrite(PIN_L1, LOW);
+      digitalWrite(PIN_L2, HIGH);
       
       digitalWrite(PIN_R1, HIGH);
-      digitalWrite(PIN_R2, LOW);   //앞으로 회
+      digitalWrite(PIN_R2, LOW);
 
-    analogWrite(6, 255);
+      analogWrite(6, 255);
     }
 
   private:
