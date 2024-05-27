@@ -1,0 +1,20 @@
+#ifndef _PIN_INCLUDE
+#define _PIN_INCLUDE
+
+/* MOVE */
+#define PIN_MOVE_LSPEED 5
+#define PIN_MOVE_LIN 6
+#define PIN_MOVE_LOUT 7
+#define PIN_MOVE_RIN 8
+#define PIN_MOVE_ROUT 9
+#define PIN_MOVE_RSPEED 10
+
+/* SHOOTER */
+#define PIN_SHOOTER_IN 3
+#define PIN_SHOOTER_OUT 4
+
+/* DISTANCE */
+#define PIN_DISTANCE_TRIG 13
+#define PIN_DISTANCE_ECHO A0
+
+#endif

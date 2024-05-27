@@ -33,8 +33,8 @@ class Move {
     /// Drive backward
     void backward() {
       // Speed
-      analogWrite(PIN_RSPEED, 255);
-      analogWrite(PIN_LSPEED, 255);
+      analogWrite(PIN_RSPEED, 180);
+      analogWrite(PIN_LSPEED, 180);
 
       // Left wheels - back
       digitalWrite(PIN_LIN, LOW);
@@ -48,8 +48,8 @@ class Move {
     /// Turn left
     void left() {
       // Speed
-      analogWrite(PIN_RSPEED, 255);
-      analogWrite(PIN_LSPEED, 255);
+      analogWrite(PIN_RSPEED, 180);
+      analogWrite(PIN_LSPEED, 180);
 
       // Left wheels - back
       digitalWrite(PIN_LIN, LOW);
@@ -63,8 +63,8 @@ class Move {
     /// Turn right
     void right() {
       // Speed
-      analogWrite(PIN_RSPEED, 255);
-      analogWrite(PIN_LSPEED, 255);
+      analogWrite(PIN_RSPEED, 180);
+      analogWrite(PIN_LSPEED, 180);
 
       // Left wheels - front
       digitalWrite(PIN_LIN, HIGH);
