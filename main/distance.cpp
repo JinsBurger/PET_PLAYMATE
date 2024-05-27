@@ -2,23 +2,26 @@
 
 class Distance {
   public:
+    /// Initialize ultrasonic related pins
     Distance(int tp, int ep) {
-      trig_pin = tp;
-      echo_pin = ep;
-      pinMode(trig_pin, OUTPUT);
-      pinMode(echo_pin, INPUT); 
+      TRIG_PIN = tp;
+      ECHO_PIN = ep;
+
+      pinMode(TRIG_PIN, OUTPUT);
+      pinMode(ECHO_PIN, INPUT); 
     }
 
+    /// Returns distance calculated using ultrasonic
     unsigned int get_distance() {
-      digitalWrite(trig_pin, LOW);
+      digitalWrite(TRIG_PIN, LOW);
       delayMicroseconds(2);
-      digitalWrite(trig_pin, HIGH);
+      digitalWrite(TRIG_PIN, HIGH);
       delayMicroseconds(10);
-      digitalWrite(trig_pin, LOW);
-      return pulseIn(echo_pin, HIGH) * 17 / 1000;  ;
+      digitalWrite(TRIG_PIN, LOW);
+      return pulseIn(ECHO_PIN, HIGH) * 17 / 1000;
     }
 
   private:
-    int trig_pin;
-    int echo_pin;
+    int TRIG_PIN;
+    int ECHO_PIN;
 };

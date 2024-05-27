@@ -8,12 +8,12 @@ Distance *distance_impl;
 void setup() {
   Serial.begin(9600);
 
-  move_impl =  new Move(2, 3, 4, 5);
+  move_impl =  new Move(PIN_MOTOR_LSPEED, PIN_MOTOR_LIN, PIN_MOTOR_LOUT, PIN_MOTOR_RIN, PIN_MOTOR_ROUT, PIN_MOTOR_RSPEED);
   // distance_impl = new Distance(PIN_ULTRA_TRIG, PIN_ULTRA_ECHO)
 }
 
 void loop() {
-  move_impl->move1();
+  move_impl -> forward();
   // Serial.println(distance_impl->get_distance());
   // delay(1000);
 }
