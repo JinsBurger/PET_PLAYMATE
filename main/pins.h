@@ -10,8 +10,9 @@
 #define PIN_MOVE_RSPEED 10
 
 /* SHOOTER */
-#define PIN_SHOOTER_IN 3
-#define PIN_SHOOTER_OUT 4
+#define PIN_SHOOTER_IN 4
+#define PIN_SHOOTER_OUT 2
+#define PIN_SHOOTER_SPEED 3
 
 /* DISTANCE */
 #define PIN_DISTANCE_TRIG 13

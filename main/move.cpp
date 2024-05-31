@@ -1,3 +1,5 @@
+#include "./constants.h"
+
 #import <Arduino.h>
 
 class Move {
@@ -16,18 +18,22 @@ class Move {
     }
 
     /// Drive forward
-    void forward() {
-      // Speed
-      analogWrite(PIN_RSPEED, 180);
-      analogWrite(PIN_LSPEED, 180);
+    void forward(int distance) {
+      if (distance > STOP_DISTANCE) {
+        // Speed
+        analogWrite(PIN_RSPEED, 180);
+        analogWrite(PIN_LSPEED, 180);
 
-      // Left wheels - front
-      digitalWrite(PIN_LIN, HIGH);
-      digitalWrite(PIN_LOUT, LOW);
-      
-      // Right wheels - front
-      digitalWrite(PIN_RIN, HIGH);
-      digitalWrite(PIN_ROUT, LOW);
+        // Left wheels - front
+        digitalWrite(PIN_LIN, HIGH);
+        digitalWrite(PIN_LOUT, LOW);
+        
+        // Right wheels - front
+        digitalWrite(PIN_RIN, HIGH);
+        digitalWrite(PIN_ROUT, LOW);
+      } else {
+        stop();
+      }
     }
 
     /// Drive backward
