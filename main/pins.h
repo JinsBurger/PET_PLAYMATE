@@ -15,7 +15,11 @@
 #define PIN_SHOOTER_SPEED 3
 
 /* DISTANCE */
-#define PIN_DISTANCE_TRIG 13
+#define PIN_DISTANCE_TRIG 11
 #define PIN_DISTANCE_ECHO A0
+
+/* BLUETOOTH */
+#define PIN_BT_TX 13
+#define PIN_BT_RX 12
 
 #endif
