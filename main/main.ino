@@ -1,8 +1,8 @@
-#include "./pins.h"
-#include "./move.cpp"
-#include "./distance.cpp"
-#include "./shooter.cpp"
-#include "./bt.cpp"
+#include "./headers/pins.h"
+#include "./headers/move.h"
+#include "./headers/distance.h"
+#include "./headers/bt.h"
+#include "./headers/shooter.h"
 
 Move *move_impl;
 Distance *distance_impl;
@@ -17,12 +17,9 @@ void setup() {
 }
 
 void loop() {
-  // int distance = distance_impl -> get_distance();
-  // move_impl -> forward(distance);
+  int distance = distance_impl -> get_distance();
+  bt_impl -> drive(move_impl, distance);
 
   // shooter_impl -> shoot();
-  
-  bt_impl -> drive();
-
-  // delay(12);
+  delay(12);
 }

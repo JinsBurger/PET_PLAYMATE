@@ -1,34 +1,32 @@
-#include "./constants.h"
+#include "./headers/bt.h"
 
-#import <Arduino.h>
-#import <SoftwareSerial.h>
+/// Initialize bluetooth
+BT::BT(int tx, int rx) : HM10(tx, rx) {
+  PIN_TX = tx;
+  PIN_RX = rx;
+  HM10.begin(9600);
+}
 
-class BT {
-  public:
-    // Initialize Bluetooth
-    BT(int tx, int rx) : HM10(tx, rx) {
-      PIN_TX = tx;
-      PIN_RX = rx;
-      
-      Serial.begin(9600);
-      HM10.begin(9600);
-      Serial.print("BT Connected");
-    }
+/// Drive car
+void BT::drive(Move *move, int distance) {
+  while (HM10.available()) {
+    dir = HM10.read();
+  }
 
-    // Move car
-    void drive() {
-      while (HM10.available()) {
-        byte c = HM10.read();
-        Serial.write(c);
-      }
-
-      while (Serial.available()) {
-        byte c = Serial.read();
-        HM10.write(c);
-      }
-    }
-
-  private:
-    SoftwareSerial HM10;
-    int PIN_TX, PIN_RX;
-};
+  switch (dir) {
+    case 'w':
+      move->forward(distance);
+      break;
+    case 'a':
+      move->left();
+      break;
+    case 'd':
+      move->right();
+      break;
+    case 's':
+      move->backward();
+      break;
+    default:
+      move->stop();
+  }
+}
