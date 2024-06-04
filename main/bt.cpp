@@ -15,18 +15,18 @@ void BT::drive(Move *move, int distance) {
 
   switch (dir) {
     case 'w':
-      move->forward(distance);
+      move -> forward(distance);
       break;
     case 'a':
-      move->left();
+      move -> left();
       break;
     case 'd':
-      move->right();
+      move -> right();
       break;
     case 's':
-      move->backward();
+      move -> backward();
       break;
     default:
-      move->stop();
+      move -> stop();
   }
 }
