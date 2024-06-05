@@ -11,7 +11,7 @@ class BT {
     void drive(Move *move, int distance);
 
   private:
-    SoftwareSerial HM10;
+    SoftwareSerial btSerial;
     int PIN_TX, PIN_RX;
     char dir;
 };

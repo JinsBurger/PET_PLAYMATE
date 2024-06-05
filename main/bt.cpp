@@ -1,16 +1,19 @@
 #include "./headers/bt.h"
 
 /// Initialize bluetooth
-BT::BT(int tx, int rx) : HM10(tx, rx) {
+BT::BT(int tx, int rx) : btSerial(tx, rx) {
   PIN_TX = tx;
   PIN_RX = rx;
-  HM10.begin(9600);
+
+  btSerial.begin(9600);
+  Serial.begin(9600);
 }
 
 /// Drive car
 void BT::drive(Move *move, int distance) {
-  while (HM10.available()) {
-    dir = HM10.read();
+  while (btSerial.available()) {
+    dir = btSerial.read();
+    Serial.println(dir);
   }
 
   switch (dir) {
