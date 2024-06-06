@@ -1,10 +1,12 @@
 #include "./headers/shooter.h"
 
 /// Initialize shooter
-Shooter::Shooter(int motorIn, int motorOut, int speed) {
+Shooter::Shooter(int motorIn, int motorOut, int speed, SR *sr_impl) {
   PIN_MOTOR_IN = motorIn; 
   PIN_MOTOR_OUT = motorOut;
   PIN_MOTOR_SPEED = speed;
+  
+  sr = sr_impl;
   
   pinMode(PIN_MOTOR_IN, OUTPUT); 
   pinMode(PIN_MOTOR_OUT, OUTPUT);
@@ -14,13 +16,13 @@ Shooter::Shooter(int motorIn, int motorOut, int speed) {
 /// Start shooting balls
 void Shooter::shoot() {
   analogWrite(PIN_MOTOR_SPEED, 255);
-  digitalWrite(PIN_MOTOR_IN, HIGH);
-  digitalWrite(PIN_MOTOR_OUT, LOW);
+  sr -> digital_write(PIN_MOTOR_IN, HIGH);
+  sr -> digital_write(PIN_MOTOR_OUT, LOW);
 }
 
 /// Stop shooting
 void Shooter::stop() {
   analogWrite(PIN_MOTOR_SPEED, 0);
-  digitalWrite(PIN_MOTOR_IN, LOW);
-  digitalWrite(PIN_MOTOR_OUT, LOW);
+  sr -> digital_write(PIN_MOTOR_IN, LOW);
+  sr -> digital_write(PIN_MOTOR_OUT, LOW);
 }

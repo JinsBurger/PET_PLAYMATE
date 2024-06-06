@@ -19,7 +19,7 @@ void setup() {
   move_impl = new Move(PIN_MOVE_LSPEED, PIN_MOVE_LIN, PIN_MOVE_LOUT, PIN_MOVE_RIN, PIN_MOVE_ROUT, PIN_MOVE_RSPEED, sr_impl);
   distance1_impl = new Distance(PIN_DISTANCE1_TRIG, PIN_DISTANCE1_ECHO, sr_impl);
   distance2_impl = new Distance(PIN_DISTANCE2_TRIG, PIN_DISTANCE2_ECHO, sr_impl);
-  shooter_impl = new Shooter(PIN_SHOOTER_IN, PIN_SHOOTER_OUT, PIN_SHOOTER_SPEED);
+  shooter_impl = new Shooter(PIN_SHOOTER_IN, PIN_SHOOTER_OUT, PIN_SHOOTER_SPEED, sr_impl);
   bt_impl = new BT(PIN_BT_TX, PIN_BT_RX);
   rotation_impl = new Rotation(PIN_ROTATION_PWM);
   
@@ -35,11 +35,11 @@ void loop() {
   // bt_impl -> drive(move_impl, distance_front, distance_back);
   // bt_impl -> rotate(rotation_impl);
 
-  move_impl -> forward(distance_front); 
+  // move_impl -> forward(distance_front); 
   // move_impl -> backward(distance_back);
   // rotation_impl -> rotate(40);
 
   
-  // shooter_impl -> shoot();
+  shooter_impl -> shoot();
   delay(12);
 }
