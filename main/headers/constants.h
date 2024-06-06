@@ -1,5 +1,5 @@
-#ifndef _CONST
-#define _CONST
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
 
 /* DISTANCE */
 #define STOP_DISTANCE 15

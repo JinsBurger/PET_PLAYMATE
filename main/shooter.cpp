@@ -8,8 +8,6 @@ Shooter::Shooter(int motorIn, int motorOut, int speed, SR *sr_impl) {
   
   sr = sr_impl;
   
-  pinMode(PIN_MOTOR_IN, OUTPUT); 
-  pinMode(PIN_MOTOR_OUT, OUTPUT);
   pinMode(PIN_MOTOR_SPEED, OUTPUT);
 }
 

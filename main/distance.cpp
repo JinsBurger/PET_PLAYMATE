@@ -7,7 +7,6 @@ Distance::Distance(int tp, int ep, SR *sr_impl) {
 
     sr = sr_impl;
 
-    // pinMode(TRIG_PIN, OUTPUT);
     pinMode(ECHO_PIN, INPUT); 
 }
 

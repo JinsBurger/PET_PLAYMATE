@@ -1,5 +1,5 @@
-#ifndef _PIN_INCLUDE
-#define _PIN_INCLUDE
+#ifndef PINS_H
+#define PINS_H
 
 /* Shift Register */
 #define PIN_SR_DATA 4
