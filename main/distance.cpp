@@ -1,20 +1,22 @@
 #include "./headers/distance.h"
 
 /// Initialize ultrasonic
-Distance::Distance(int tp, int ep) {
+Distance::Distance(int tp, int ep, SR *sr_impl) {
     TRIG_PIN = tp;
     ECHO_PIN = ep;
 
-    pinMode(TRIG_PIN, OUTPUT);
+    sr = sr_impl;
+
+    // pinMode(TRIG_PIN, OUTPUT);
     pinMode(ECHO_PIN, INPUT); 
 }
 
 /// Returns distance calculated using ultrasonic
 unsigned int Distance::get_distance() {
-    digitalWrite(TRIG_PIN, LOW);
+    sr -> digital_write(TRIG_PIN, LOW);
     delayMicroseconds(2);
-    digitalWrite(TRIG_PIN, HIGH);
+    sr -> digital_write(TRIG_PIN, HIGH);
     delayMicroseconds(10);
-    digitalWrite(TRIG_PIN, LOW);
+    sr -> digital_write(TRIG_PIN, LOW);
     return pulseIn(ECHO_PIN, HIGH) * 17 / 1000;
 }

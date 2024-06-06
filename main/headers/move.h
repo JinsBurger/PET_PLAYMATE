@@ -8,7 +8,7 @@ class Move {
 public:
   Move(int lspeed, int lin, int lout, int rin, int rout, int rspeed, SR *sr_impl);
   void forward(int distance);
-  void backward();
+  void backward(int distance);
   void left();
   void right();
   void stop();

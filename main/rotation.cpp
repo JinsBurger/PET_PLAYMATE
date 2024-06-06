@@ -2,15 +2,18 @@
 
 /// Initialize rotation
 Rotation::Rotation(int pwm) {
-    PIN_PWM = pwm;
+  servo.attach(pwm);
+  // servo.write(90); // Initialize to center position
 }
 
-/// Rotate left
-void Rotation::rotate_left(int angle) {
+/// Rotate
+void Rotation::rotate(int deg) {
+  // if (deg > MAX_ROTATION) {
+  //   deg = MAX_ROTATION;
+  // }
+  // if (deg < -MAX_ROTATION) {
+  //   deg = -MAX_ROTATION;
+  // }
 
-}
-
-/// Rotate right
-void Rotation::rotate_right(int angle) {
-    
+  servo.write(deg);
 }

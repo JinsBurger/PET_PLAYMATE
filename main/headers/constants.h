@@ -4,4 +4,7 @@
 /* DISTANCE */
 #define STOP_DISTANCE 15
 
+/* ROTATION */
+#define MAX_ROTATION 60
+
 #endif

@@ -2,15 +2,16 @@
 #define ROTATION_H
 
 #include <Arduino.h>
+#include <Servo.h>
+#include "./constants.h"
 
 class Rotation {
   public:
     Rotation(int pwm);
-    void rotate_left(int angle);
-    void rotate_right(int angle);
+    void rotate(int step);
 
   private:
-    int PIN_PWM;
+    Servo servo;
 };
 
 #endif

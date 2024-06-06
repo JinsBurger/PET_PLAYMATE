@@ -8,12 +8,8 @@ Move::Move(int lspeed, int lin, int lout, int rin, int rout, int rspeed, SR *sr_
 
   sr = sr_impl;
 
-  pinMode(PIN_LSPEED, OUTPUT);
-  // pinMode(PIN_LIN, OUTPUT);
-  // pinMode(PIN_LOUT, OUTPUT);
-  // pinMode(PIN_RIN, OUTPUT);
-  // pinMode(PIN_ROUT, OUTPUT);
   pinMode(PIN_RSPEED, OUTPUT);
+  pinMode(PIN_LSPEED, OUTPUT);
 }
 
 /// Drive forward
@@ -37,18 +33,22 @@ void Move::forward(int distance) {
 }
 
 /// Drive backward
-void Move::backward() {
-  // Speed
-  analogWrite(PIN_RSPEED, 180);
-  analogWrite(PIN_LSPEED, 180);
+void Move::backward(int distance) {
+  if (distance > STOP_DISTANCE) {
+    // Speed
+    analogWrite(PIN_RSPEED, 180);
+    analogWrite(PIN_LSPEED, 180);
 
-  // Left wheels - back
-  sr -> digital_write(PIN_LIN, LOW);
-  sr -> digital_write(PIN_LOUT, HIGH);
-  
-  // Right wheels - back
-  sr -> digital_write(PIN_RIN, LOW);
-  sr -> digital_write(PIN_ROUT, HIGH);
+    // Left wheels - back
+    sr -> digital_write(PIN_LIN, LOW);
+    sr -> digital_write(PIN_LOUT, HIGH);
+    
+    // Right wheels - back
+    sr -> digital_write(PIN_RIN, LOW);
+    sr -> digital_write(PIN_ROUT, HIGH);
+  } else {
+    stop();
+  }
 }
 
 /// Turn left
