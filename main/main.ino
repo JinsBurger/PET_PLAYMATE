@@ -30,11 +30,13 @@ void loop() {
   int distance_front = distance1_impl -> get_distance();
   delay(12);
   int distance_back = distance2_impl -> get_distance();
-  Serial.println(distance_front);
+  // Serial.println(distance_front);
 
-  bt_impl -> drive(move_impl, distance_front, distance_back);
+  // bt_impl -> drive(move_impl, distance_front, distance_back);
   // bt_impl -> rotate(rotation_impl);
-  // move_impl -> forward(distance);
+
+  move_impl -> forward(distance_front); 
+  // move_impl -> backward(distance_back);
   // rotation_impl -> rotate(40);
 
   
