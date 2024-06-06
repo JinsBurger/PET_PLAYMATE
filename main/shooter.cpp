@@ -20,7 +20,7 @@ void Shooter::shoot() {
   sr -> digital_write(PIN_MOTOR_OUT, LOW);
 }
 
-/// Stop shooting
+/// Stop shooting 
 void Shooter::stop() {
   analogWrite(PIN_MOTOR_SPEED, 0);
   sr -> digital_write(PIN_MOTOR_IN, LOW);
