@@ -6,7 +6,7 @@
 #define PIN_SR_LATCH 3
 #define PIN_SR_REG 2
 
-/* MOVE */
+/* MOVE */ 
 #define PIN_MOVE_LSPEED A2
 #define PIN_MOVE_LIN 1 // SR
 #define PIN_MOVE_LOUT 0 // SR
