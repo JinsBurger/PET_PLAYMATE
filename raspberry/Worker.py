@@ -106,6 +106,8 @@ class ArduinoWorker(threading.Thread):
         self.net.setInputMean((127.5, 127.5, 127.5))
         self.net.setInputSwapRB(True)
 
+        self.cur_degree = -0x100
+
 
     def send_num_to_arduino(self, data: int):
         data = chr(int(data)).encode()
@@ -129,12 +131,16 @@ class ArduinoWorker(threading.Thread):
             if self.comm_flags["auto_move"] == True:
                 success, img = self.cap.read()            
                 dog_coordinate = self.getObjects(img, 0.5, 0.25, objects=['dog'])
-
                 if len(dog_coordinate) != 0:
                     centerx = dog_coordinate[0]
                     deg_degree = np.interp(centerx, [0, 480], [0, 180])
                     error = 20 // 2
                     print("deg_degree: %d" % deg_degree)
+
+                    if abs(self.cur_degree - deg_degree) >= 15:
+                        self.cur_degree = deg_degree
+                    else:
+                        continue
                     
                     # deg with error=10: 80 < deg < 100 <- don't move
                     if deg_degree > 90+error:
