@@ -58,6 +58,12 @@
             font-size: 20px;
             cursor: pointer;
         }
+        .status-message {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: green;
+        }
     </style>
 </head>
 <body>
@@ -78,6 +84,7 @@
             <button id="sendButton7"><i class="fas fa-robot"></i></button>
         </div>
     </div>
+    <div id="statusMessage" class="status-message" style="display: none;">Auto Mode On</div>
 
     <script>
         const video = document.getElementById('webcam');
@@ -149,7 +156,20 @@
 
         document.getElementById('sendButton5').addEventListener('click', () => sendNumberToServer(6));
         document.getElementById('sendButton6').addEventListener('click', () => sendNumberToServer(7));
-        document.getElementById('sendButton7').addEventListener('click', () => sendNumberToServer(8));
+
+        const autoModeButton = document.getElementById('sendButton7');
+        const statusMessage = document.getElementById('statusMessage');
+        let autoMode = false;
+
+        autoModeButton.addEventListener('click', () => {
+            autoMode = !autoMode;
+            if (autoMode) {
+                statusMessage.style.display = 'block';
+            } else {
+                statusMessage.style.display = 'none';
+            }
+            sendNumberToServer(8); // Send signal for auto mode
+        });
 
         setInterval(() => {
             if (imageSocket && imageSocket.readyState === WebSocket.OPEN) {
