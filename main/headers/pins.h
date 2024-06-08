@@ -8,16 +8,16 @@
 
 /* MOVE */ 
 #define PIN_MOVE_LSPEED A2
-#define PIN_MOVE_LIN 11
-#define PIN_MOVE_LOUT 10
-#define PIN_MOVE_RIN 9
-#define PIN_MOVE_ROUT 8
+#define PIN_MOVE_LIN 10
+#define PIN_MOVE_LOUT 11
+#define PIN_MOVE_RIN 8
+#define PIN_MOVE_ROUT 9
 #define PIN_MOVE_RSPEED A1
 
 /* SHOOTER */
 #define PIN_SHOOTER_SPEED A5 
-#define PIN_SHOOTER_IN 6
-#define PIN_SHOOTER_OUT 7
+#define PIN_SHOOTER_IN 7
+#define PIN_SHOOTER_OUT 6
 
 /* DISTANCE */
 #define PIN_DISTANCE1_TRIG 13 // Front
@@ -25,11 +25,8 @@
 #define PIN_DISTANCE2_TRIG 12 // Back
 #define PIN_DISTANCE2_ECHO A4
 
-/* BLUETOOTH */
-#define PIN_BT_TX 13
-#define PIN_BT_RX 12
-
-/* ROTATION */
-#define PIN_ROTATION_PWM 0
+/* LED */
+#define PIN_LED_AUTO 4
+#define PIN_LED_SHOOT 5
 
 #endif
