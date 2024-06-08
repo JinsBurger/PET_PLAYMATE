@@ -163,10 +163,9 @@ class ArduinoWorker(threading.Thread):
                     print("auto move %d", self.comm_flags["auto_move"])
                 else:
                     cmd = data["number"]
-
-                    if data["number"] == '1':
+                    if data["number"] == 1:
                         cmd = self.commands["manual_forward"]
-                    if data["number"] == '2':
+                    if data["number"] == 2:
                         cmd = self.commands["manual_backward"]
 
                     print("to_comm", cmd)
