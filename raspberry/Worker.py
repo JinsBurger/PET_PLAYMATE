@@ -128,15 +128,15 @@ class ArduinoWorker(threading.Thread):
                 dog_coordinate = self.getObjects(img, 0.45, 0.25, objects=['dog'])
 
                 if len(dog_coordinate) != 0:
-                    centerx = abs(dog_coordinate[2] - dog_coordinate[0])
-                    degree = np.interp(centerx, [0, 480], [0, 180])
+                    centerx = dog_coordinate[0]
+                    deg_degree = np.interp(centerx, [0, 480], [0, 180])
                     error = 20 // 2
-                    print(degree)
+                    
                     # deg with error=10: 80 < deg < 100 <- don't move
-                    if degree > 90+error:
+                    if deg_degree > 90+error:
                         self.send_to_arduino(self.commands['left'])
                         self.send_to_arduino(self.commands['stop'])
-                    elif degree < 90-error:
+                    elif deg_degree < 90-error:
                         self.send_to_arduino(self.commands['right'])
                         self.send_to_arduino(self.commands['stop'])
                     else:
