@@ -11,7 +11,7 @@ import time
 HOSTNAME = "0.0.0.0"
 PORT = 8888
 
-
+a = 1
 class VideoWorker(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
