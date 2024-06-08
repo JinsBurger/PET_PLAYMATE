@@ -39,6 +39,11 @@ void loop() {
   // shooter_impl -> shoot();
 
   // Read command input fron raspberry
+
+  if (distance_front <= STOP_DISTANCE ||  distance_back <= STOP_DISTANCE ) {
+    move_impl->stop();
+  }
+
   int command = Serial.read();
 
   if (command == 1) {
