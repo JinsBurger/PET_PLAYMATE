@@ -38,7 +38,7 @@
             display: grid;
             grid-template-areas:
                 ". up ."
-                "left stop right"
+                "left . right"
                 ". down .";
             gap: 10px;
         }
@@ -52,7 +52,6 @@
         .direction-controls .down { grid-area: down; }
         .direction-controls .left { grid-area: left; }
         .direction-controls .right { grid-area: right; }
-        .direction-controls .stop { grid-area: stop; }
         .other-controls button {
             width: 100px;
             height: 60px;
@@ -72,20 +71,19 @@
             <button id="sendButton2" class="down"><i class="fas fa-arrow-down"></i></button>
             <button id="sendButton3" class="left"><i class="fas fa-arrow-left"></i></button>
             <button id="sendButton4" class="right"><i class="fas fa-arrow-right"></i></button>
-            <button id="sendButton5" class="stop"><i class="fas fa-stop"></i></button>
         </div>
         <div class="other-controls">
-            <button id="sendButton6"><i class="fas fa-bullseye"></i></button>
-            <button id="sendButton7"><i class="fas fa-ban"></i></button>
-            <button id="sendButton8"><i class="fas fa-robot"></i></button>
+            <button id="sendButton5"><i class="fas fa-bullseye"></i></button>
+            <button id="sendButton6"><i class="fas fa-ban"></i></button>
+            <button id="sendButton7"><i class="fas fa-robot"></i></button>
         </div>
     </div>
 
     <script>
         const video = document.getElementById('webcam');
         const receivedImage = document.getElementById('receivedImage');
-        const buttons = [];
         let imageSocket, numberSocket;
+        let currentInterval;
 
         navigator.mediaDevices.getUserMedia({ video: true })
             .then(stream => {
@@ -97,8 +95,8 @@
             });
 
         function startStreaming() {
-            imageSocket = new WebSocket('ws://172.20.10.11:8888');
-            numberSocket = new WebSocket('ws://172.20.10.11:7777');
+            imageSocket = new WebSocket('ws://10.0.0.42:8888');
+            numberSocket = new WebSocket('ws://10.0.0.42:7777');
 
             imageSocket.onopen = () => {
                 console.log('Image WebSocket connection opened');
@@ -122,12 +120,15 @@
             };
         }
 
-        for (let i = 1; i <= 8; i++) {
-            const button = document.getElementById(`sendButton${i}`);
-            buttons.push(button);
-            button.addEventListener('click', () => {
-                sendNumberToServer(i);
-            });
+        function startSendingNumber(number) {
+            currentInterval = setInterval(() => {
+                sendNumberToServer(number);
+            }, 100);
+        }
+
+        function stopSendingNumber() {
+            clearInterval(currentInterval);
+            sendNumberToServer(5);
         }
 
         function sendNumberToServer(number) {
@@ -138,6 +139,17 @@
                 console.error('Number WebSocket connection is not open');
             }
         }
+
+        for (let i = 1; i <= 4; i++) {
+            const button = document.getElementById(`sendButton${i}`);
+            button.addEventListener('mousedown', () => startSendingNumber(i));
+            button.addEventListener('mouseup', stopSendingNumber);
+            button.addEventListener('mouseleave', stopSendingNumber);
+        }
+
+        document.getElementById('sendButton5').addEventListener('click', () => sendNumberToServer(6));
+        document.getElementById('sendButton6').addEventListener('click', () => sendNumberToServer(7));
+        document.getElementById('sendButton7').addEventListener('click', () => sendNumberToServer(8));
 
         setInterval(() => {
             if (imageSocket && imageSocket.readyState === WebSocket.OPEN) {
