@@ -11,7 +11,7 @@ Move::Move(int lspeed, int lin, int lout, int rin, int rout, int rspeed) {
   pinMode(PIN_LIN, OUTPUT);
   pinMode(PIN_LOUT, OUTPUT);
   pinMode(PIN_RIN, OUTPUT);
-  pinMode(PIN_LOUT, OUTPUT);
+  pinMode(PIN_ROUT, OUTPUT);
 }
 
 /// Drive forward

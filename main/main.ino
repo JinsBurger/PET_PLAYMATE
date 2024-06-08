@@ -25,7 +25,7 @@ void loop() {
   int distance_back = distance_back_impl -> get_distance();
   delay(12);
 
-  // move_impl->backward(distance_back);
+  // move_impl -> forward(distance_front);
 
   // Read command input fron raspberry
   int command = Serial.read();
@@ -45,8 +45,8 @@ void loop() {
   } else if (command == 7) {
     shooter_impl->stop();
   } else if (command == 8) {
-    move_impl->forward(10);
+    move_impl->forward(STOP_DISTANCE + 1);
   } else if (command == 9) {
-    move_impl->backward(10);
+    move_impl->backward(STOP_DISTANCE + 1);
   }
 }

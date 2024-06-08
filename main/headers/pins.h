@@ -25,11 +25,4 @@
 #define PIN_DISTANCE2_TRIG 12 // Back
 #define PIN_DISTANCE2_ECHO A4
 
-/* BLUETOOTH */
-#define PIN_BT_TX 13
-#define PIN_BT_RX 12
-
-/* ROTATION */
-#define PIN_ROTATION_PWM 0
-
 #endif
