@@ -99,7 +99,7 @@ class ArduinoWorker(threading.Thread):
             self.classNames = f.read().rstrip("\n").split("\n")
 
         self.net = cv2.dnn_DetectionModel(WEIGHT_PATH, CONFIG_PATH)
-        self.net.setInputSize(320,320)
+        self.net.setInputSize(480, 480)
         self.net.setInputScale(1.0/ 127.5)
         self.net.setInputMean((127.5, 127.5, 127.5))
         self.net.setInputSwapRB(True)
@@ -125,7 +125,7 @@ class ArduinoWorker(threading.Thread):
         while True:
             if self.comm_flags["auto_move"]:
                 success, img = self.cap.read()            
-                dog_coordinate = self.getObjects(img, 0.45, 0.25, objects=['dog'])
+                dog_coordinate = self.getObjects(img, 0.5, 0.25, objects=['dog'])
 
                 if len(dog_coordinate) != 0:
                     centerx = dog_coordinate[0]
