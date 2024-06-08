@@ -20,10 +20,12 @@ void setup() {
 
 void loop() {
   // Calculate front/back distance using ultrasonic
-  int distance_front = distance_front_impl->get_distance();
+  int distance_front = distance_front_impl -> get_distance();
   delay(12);
-  int distance_back = distance_back_impl->get_distance();
+  int distance_back = distance_back_impl -> get_distance();
   delay(12);
+
+  // move_impl->backward(distance_back);
 
   // Read command input fron raspberry
   int command = Serial.read();
