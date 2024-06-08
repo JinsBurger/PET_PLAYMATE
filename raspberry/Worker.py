@@ -125,6 +125,8 @@ class ArduinoWorker(threading.Thread):
 
     def run(self):
         while True:
+            print("auto move", self.comm_flags["auto_move"])
+
             if self.comm_flags["auto_move"]:
                 success, img = self.cap.read()            
                 dog_coordinate = self.getObjects(img, 0.5, 0.25, objects=['dog'])
@@ -160,7 +162,7 @@ class ArduinoWorker(threading.Thread):
                 print("RECV COMMAND: %d" % data["number"])
                 if int(data["number"]) == 8: # set auto move
                     self.comm_flags["auto_move"] = not self.comm_flags["auto_move"]
-                    print("auto move %d", self.comm_flags["auto_move"])
+                    
                 else:
                     cmd = data["number"]
                     if data["number"] == 1:
