@@ -20,7 +20,7 @@ CONFIG_PATH = "./Object_Detection_Files/ssd_mobilenet_v3_large_coco_2020_01_14.p
 WEIGHT_PATH = "./Object_Detection_Files/frozen_inference_graph.pb"
 
 cap = cv2.VideoCapture(0)
-cap.set(3, 800)
+cap.set(3, 480)
 cap.set(4, 480)
 
 
@@ -83,6 +83,15 @@ class ArduinoWorker(threading.Thread):
         self.arduino_comm = ArduinoComm("/dev/ttyACM0")
 
         self.comm_flags = {"auto_move": False}
+        self.commands = {
+            'forward': b'1',
+            'backward': b'2',
+            'left': b'3',
+            'right': b'4',
+            'stop':  b'5',
+            'shoot': b'6',
+            'shoot_stop': b'7'
+        }
 
         self.classNames = []
         classFile = "./Object_Detection_Files/coco.names"
@@ -120,8 +129,16 @@ class ArduinoWorker(threading.Thread):
 
                 if len(dog_coordinate) != 0:
                     centerx = abs(dog_coordinate[2] - dog_coordinate[0])
-                    degree = np.interp(centerx, [0, 800], [0, 180])
-                    print(degree)
+                    degree = np.interp(centerx, [0, 480], [0, 180])
+                    # deg > 90: left,  90=front, deg < 90, right
+                    if degree > 90:
+                        self.send_to_arduino(self.commands['left'])
+                        self.send_to_arduino(self.commands['stop'])
+                    elif degree < 90:
+                        self.send_to_arduino(self.commands['right'])
+                        self.send_to_arduino(self.commands['stop'])
+                    else:
+                        pass
                 #else:
                 #    print("Not found")
                 time.sleep(0.3)
@@ -135,7 +152,7 @@ class ArduinoWorker(threading.Thread):
             try:
                 data = await websocket.recv()
                 data = json.loads(data)
-
+                
                 print("RECV COMMAND: %d" % data["number"])
                 if int(data["number"]) == 8: # set auto move
                     self.comm_flags["auto_move"] = not self.comm_flags["auto_move"]
