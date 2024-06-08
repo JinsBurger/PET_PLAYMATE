@@ -2,11 +2,9 @@
 #include "./headers/constants.h"
 
 /// Initialize Move
-Move::Move(int lspeed, int lin, int lout, int rin, int rout, int rspeed, SR *sr_impl) {
+Move::Move(int lspeed, int lin, int lout, int rin, int rout, int rspeed) {
   PIN_LIN = lin; PIN_LOUT = lout; PIN_LSPEED = lspeed;
   PIN_RIN = rin; PIN_ROUT = rout; PIN_RSPEED = rspeed;
-
-  sr = sr_impl;
 
   pinMode(PIN_RSPEED, OUTPUT);
   pinMode(PIN_LSPEED, OUTPUT);
@@ -21,12 +19,12 @@ void Move::forward(int distance) {
       analogWrite(PIN_LSPEED, 180);
 
       // Left wheels - front
-      sr -> digital_write(PIN_LIN, HIGH);
-      sr -> digital_write(PIN_LOUT, LOW);
+      digitalWrite(PIN_LIN, HIGH);
+      digitalWrite(PIN_LOUT, LOW);
       
       // Right wheels - front
-      sr -> digital_write(PIN_RIN, HIGH);
-      sr -> digital_write(PIN_ROUT, LOW);
+      digitalWrite(PIN_RIN, HIGH);
+      digitalWrite(PIN_ROUT, LOW);
   } else {
       stop();
   }
@@ -40,12 +38,12 @@ void Move::backward(int distance) {
     analogWrite(PIN_LSPEED, 180);
 
     // Left wheels - back
-    sr -> digital_write(PIN_LIN, LOW);
-    sr -> digital_write(PIN_LOUT, HIGH);
+    digitalWrite(PIN_LIN, LOW);
+    digitalWrite(PIN_LOUT, HIGH);
     
     // Right wheels - back
-    sr -> digital_write(PIN_RIN, LOW);
-    sr -> digital_write(PIN_ROUT, HIGH);
+    digitalWrite(PIN_RIN, LOW);
+    digitalWrite(PIN_ROUT, HIGH);
   } else {
     stop();
   }
@@ -58,12 +56,12 @@ void Move::left() {
   analogWrite(PIN_LSPEED, 180);
 
   // Left wheels - back
-  sr -> digital_write(PIN_LIN, HIGH);
-  sr -> digital_write(PIN_LOUT, LOW);
+  digitalWrite(PIN_LIN, HIGH);
+  digitalWrite(PIN_LOUT, LOW);
   
   // Right wheels - front
-  sr -> digital_write(PIN_RIN, LOW);
-  sr -> digital_write(PIN_ROUT, HIGH);
+  digitalWrite(PIN_RIN, LOW);
+  digitalWrite(PIN_ROUT, HIGH);
 }
 
 /// Turn right
@@ -73,12 +71,12 @@ void Move::right() {
   analogWrite(PIN_LSPEED, 180);
 
   // Left wheels - front
-  sr -> digital_write(PIN_LIN, LOW);
-  sr -> digital_write(PIN_LOUT, HIGH);
+  digitalWrite(PIN_LIN, LOW);
+  digitalWrite(PIN_LOUT, HIGH);
   
   // Right wheels - back
-  sr -> digital_write(PIN_RIN, HIGH);
-  sr -> digital_write(PIN_ROUT, LOW);
+  digitalWrite(PIN_RIN, HIGH);
+  digitalWrite(PIN_ROUT, LOW);
 }
 
 /// Stop
@@ -88,10 +86,10 @@ void Move::stop() {
   analogWrite(PIN_LSPEED, 0);
 
   // Left wheels - front
-  sr -> digital_write(PIN_LIN, LOW);
-  sr -> digital_write(PIN_LOUT, LOW);
+  digitalWrite(PIN_LIN, LOW);
+  digitalWrite(PIN_LOUT, LOW);
   
   // Right wheels - back
-  sr -> digital_write(PIN_RIN, LOW);
-  sr -> digital_write(PIN_ROUT, LOW);
+  digitalWrite(PIN_RIN, LOW);
+  digitalWrite(PIN_ROUT, LOW);
 }
