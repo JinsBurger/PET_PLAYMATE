@@ -8,6 +8,7 @@ import json
 import numpy as np
 import time
 from ArduinoComm import ArduinoComm
+import os
 
 VIDEO_HOSTNAME = "0.0.0.0"
 VIDEO_PORT = 8888
