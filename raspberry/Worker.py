@@ -19,9 +19,11 @@ ARDUINO_PORT = 7777
 CONFIG_PATH = "./Object_Detection_Files/ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt"
 WEIGHT_PATH = "./Object_Detection_Files/frozen_inference_graph.pb"
 
+CAP_HEIGHT = 480
+CAP_WIDTH = 640
 cap = cv2.VideoCapture(0)
-cap.set(3, 480)
-cap.set(4, 480)
+cap.set(3, CAP_WIDTH)
+cap.set(4, CAP_HEIGHT)
 
 
 
@@ -33,6 +35,12 @@ class VideoWorker(threading.Thread):
         self.SEND_DELAY = 0.1
         self.recv_img_queue = []
         self.websockets = []
+
+        cc = cv2.imread("example.jpg")
+        cv2.namedWindow("video", cv2.WND_PROP_FULLSCREEN)          
+        cv2.setWindowProperty("video", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        cv2.imshow('video', cc)
+        cv2.waitKey(1)
 
 
     def run(self):
@@ -74,6 +82,7 @@ class VideoWorker(threading.Thread):
         self.websockets.pop(self.websockets.index(websocket))
 
 
+
 class ArduinoWorker(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
@@ -87,6 +96,7 @@ class ArduinoWorker(threading.Thread):
             'auto_forward': 1,
             'auto_backward': 2,
             'manual_forward': 8,
+
             'manual_backward': 9,
             'left': 3,
             'right': 4,
@@ -95,17 +105,19 @@ class ArduinoWorker(threading.Thread):
             'shoot_stop': 7
         }
 
+
         self.classNames = []
         classFile = "./Object_Detection_Files/coco.names"
         with open(classFile, "rt") as f:
             self.classNames = f.read().rstrip("\n").split("\n")
 
         self.net = cv2.dnn_DetectionModel(WEIGHT_PATH, CONFIG_PATH)
-        self.net.setInputSize(480, 480)
+
+        #self.net.setInputSize(320,320)
+        self.net.setInputSize(CAP_WIDTH, CAP_HEIGHT)
         self.net.setInputScale(1.0/ 127.5)
         self.net.setInputMean((127.5, 127.5, 127.5))
         self.net.setInputSwapRB(True)
-
         self.cur_degree = -0x100
 
 
@@ -129,33 +141,71 @@ class ArduinoWorker(threading.Thread):
     def run(self):
         while True:
             if self.comm_flags["auto_move"] == True:
-                success, img = self.cap.read()            
-                dog_coordinate = self.getObjects(img, 0.5, 0.25, objects=['dog'])
-                if len(dog_coordinate) != 0:
-                    centerx = dog_coordinate[0]
-                    deg_degree = np.interp(centerx, [0, 480], [0, 180])
-                    error = 20 // 2
-                    print("deg_degree: %d" % deg_degree)
 
-                    if abs(self.cur_degree - deg_degree) >= 15:
-                        self.cur_degree = deg_degree
-                    else:
-                        continue
+                success, img = self.cap.read()
+                if img is None:
+                    print("img is none!")
+                    time.sleep(0.4)
+                    continue
+                dog_coordinate = self.getObjects(img, 0.45, 0.2, objects=['dog'])
+                if len(dog_coordinate) != 0:
+                    centerx = dog_coordinate[0]+dog_coordinate[2]//2
+
+                    deg_degree = np.interp(centerx, [0, CAP_WIDTH], [0, 180])
+                    error = 40 // 2
+                    area_error = 30//2
+                    dog_size = 130
+
+
+                    #if abs(self.cur_degree - deg_degree) >= 15:
+                    #    self.cur_degree = deg_degree
+                    #else:
+                    #    continue
                     
                     # deg with error=10: 80 < deg < 100 <- don't move
-                    if deg_degree > 90+error:
-                        print("auto left")
-                        self.send_num_to_arduino(self.commands['right'])
+                    interval = np.interp(abs(deg_degree - 90), [0, 90], [0, 0.15])
+
+                    print("deg_degree: %d %f" % (deg_degree, interval))
+
+
+                    if deg_degree > 90 + error:
+                        print("auto right", interval)
+                        self.send_num_to_arduino(self.commands['right']) 
+                        time.sleep(interval)
                         self.send_num_to_arduino(self.commands['stop'])
+
                     elif deg_degree < 90-error:
-                        print("auto left")
+                        print("auto left", interval)
                         self.send_num_to_arduino(self.commands['left'])
+                        time.sleep(interval)
                         self.send_num_to_arduino(self.commands['stop'])
+
+                    area = dog_coordinate[2] #abs(dog_coordinate[2]*dog_coordinate[3])
+                    print(area)
+                    if area >= dog_size+area_error :
+                        self.send_num_to_arduino(self.commands['auto_backward']) 
+                        elapsed = np.interp(area-(dog_size), [0, CAP_WIDTH], [0, 2])
+                        time.sleep(elapsed)
+                        self.send_num_to_arduino(self.commands['stop'])
+                        print("back") 
+
+                    elif area <= dog_size -area_error:
+                        self.send_num_to_arduino(self.commands['auto_forward']) 
+                        elapsed = np.interp(area, [0, CAP_WIDTH], [0, 2])
+                        time.sleep(elapsed)
+                        self.send_num_to_arduino(self.commands['stop'])
+                        print("front")
                     else:
-                        pass
+                        self.send_num_to_arduino(self.commands['stop'])
+                
+                    
+
+                else:
+                        print(b'asdasd')
+                        self.send_num_to_arduino(self.commands['stop'])
                 #else:
                 #    print("Not found")
-                #time.sleep(0.3)
+            #time.sleep(0.5)
             else:
                 time.sleep(1)
 
@@ -174,9 +224,9 @@ class ArduinoWorker(threading.Thread):
                 else:
                     cmd = data["number"]
                     if data["number"] == 1:
-                        cmd = self.commands["manual_forward"]
+                        cmd = 1#self.commands["manual_forward"]
                     if data["number"] == 2:
-                        cmd = self.commands["manual_backward"]
+                        cmd = 2#self.commands["manual_backward"]
 
                 print("to_comm", cmd)
                 self.send_num_to_arduino(cmd)

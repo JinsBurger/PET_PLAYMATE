@@ -1,5 +1,4 @@
 import cv2
-import time
 
 #thres = 0.45 # Threshold to detect object
 
@@ -29,15 +28,18 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
             if className in objects:
                 objectInfo.append([box,className])
                 if (draw):
-                    print(box)
-                    print((box[0], box[1]))
+                    cv2.rectangle(img,box,color=(0,255,0),thickness=2)
+                    cv2.putText(img,classNames[classId-1].upper(),(box[0]+10,box[1]+30),
+                    cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
+                    cv2.putText(img,str(round(confidence*100,2)),(box[0]+200,box[1]+30),
+                    cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
 
     return img,objectInfo
 
 
 if __name__ == "__main__":
 
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
     cap.set(3,640)
     cap.set(4,480)
     #cap.set(10,70)
@@ -45,10 +47,7 @@ if __name__ == "__main__":
 
     while True:
         success, img = cap.read()
-        result, objectInfo = getObjects(img,0.45,0.25, objects=['dog'])
+        result, objectInfo = getObjects(img,0.45,0.2,objects=['dog'])
         #print(objectInfo)
-        '''
         cv2.imshow("Output",img)
         cv2.waitKey(1)
-        '''
-        time.sleep(0.3)
