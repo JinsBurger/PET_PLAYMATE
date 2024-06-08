@@ -5,6 +5,9 @@
 #include "./headers/shooter.h"
 #include "./headers/led.h"
 
+bool front = false;
+bool back = false;
+
 Move *move_impl;
 Distance *distance_front_impl; // Front
 Distance *distance_back_impl;  // Back
@@ -40,22 +43,26 @@ void loop() {
 
   // Read command input fron raspberry
 
-  if (distance_front <= STOP_DISTANCE ||  distance_back <= STOP_DISTANCE ) {
-    move_impl->stop();
+  if ((front && distance_front < STOP_DISTANCE) || (back && distance_back < STOP_DISTANCE)) {
+    move_impl -> stop();
   }
 
   int command = Serial.read();
 
-  if (command == 1) {
+  if (command == 1) { // Auto
     move_impl -> forward(distance_front);
-  } else if (command == 2) {
+    front = true;
+  } else if (command == 2) { // Auto
     move_impl -> backward(distance_back);
+    back = true;
   } else if (command == 3) {
     move_impl -> left();
   } else if (command == 4) {
     move_impl -> right();
   } else if (command == 5) {
     move_impl -> stop();
+    front = false;
+    back = false;
   } else if (command == 6) {
     shooter_impl -> shoot();
     led_impl -> shoot_mode(HIGH);

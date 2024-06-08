@@ -13,7 +13,7 @@ Shooter::Shooter(int motorIn, int motorOut, int speed) {
 
 /// Start shooting balls
 void Shooter::shoot() {
-  analogWrite(PIN_MOTOR_SPEED, 255);
+  analogWrite(PIN_MOTOR_SPEED, 180);
   digitalWrite(PIN_MOTOR_IN, HIGH);
   digitalWrite(PIN_MOTOR_OUT, LOW);
 }

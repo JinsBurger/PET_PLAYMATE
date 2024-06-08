@@ -20,8 +20,8 @@ void Move::forward(int distance) {
   // Only move forward if there is enough space
   if (distance > STOP_DISTANCE) {
       // Speed
-      analogWrite(PIN_RSPEED, 180);
-      analogWrite(PIN_LSPEED, 180);
+      analogWrite(PIN_RSPEED, 140);
+      analogWrite(PIN_LSPEED, 140);
 
       // Left wheels - front
       digitalWrite(PIN_LIN, HIGH);
@@ -39,8 +39,8 @@ void Move::forward(int distance) {
 void Move::backward(int distance) {
   if (distance > STOP_DISTANCE) {
     // Speed
-    analogWrite(PIN_RSPEED, 180);
-    analogWrite(PIN_LSPEED, 180);
+    analogWrite(PIN_RSPEED, 140);
+    analogWrite(PIN_LSPEED, 140);
 
     // Left wheels - back
     digitalWrite(PIN_LIN, LOW);
@@ -57,8 +57,8 @@ void Move::backward(int distance) {
 /// Turn right
 void Move::right() {
   // Speed
-  analogWrite(PIN_RSPEED, 180);
-  analogWrite(PIN_LSPEED, 180);
+  analogWrite(PIN_RSPEED, 140);
+  analogWrite(PIN_LSPEED, 140);
 
   // Left wheels - front
   digitalWrite(PIN_LIN, HIGH);
@@ -72,8 +72,8 @@ void Move::right() {
 /// Turn left
 void Move::left() {
   // Speed
-  analogWrite(PIN_RSPEED, 180);
-  analogWrite(PIN_LSPEED, 180);
+  analogWrite(PIN_RSPEED, 140);
+  analogWrite(PIN_LSPEED, 140);
 
   // Left wheels - back
   digitalWrite(PIN_LIN, LOW);
