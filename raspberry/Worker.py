@@ -173,8 +173,8 @@ class ArduinoWorker(threading.Thread):
                     if data["number"] == 2:
                         cmd = self.commands["manual_backward"]
 
-                    print("to_comm", cmd)
-                    self.arduino_comm.send(chr(int(cmd)).encode())
+                print("to_comm", cmd)
+                self.arduino_comm.send(chr(int(cmd)).encode())
                 
             except websockets.exceptions.ConnectionClosed:
                 print("Video Socket Closed")
