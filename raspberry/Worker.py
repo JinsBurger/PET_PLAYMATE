@@ -108,6 +108,8 @@ class ArduinoWorker(threading.Thread):
 
 
     def send_to_arduino(self, data):
+        if isinstance(data, bytes):
+            data = chr(int(data))
         self.arduino_comm.send(data)
 
     def getObjects(self, img, thres, nms, objects=[]):
@@ -137,9 +139,11 @@ class ArduinoWorker(threading.Thread):
                     
                     # deg with error=10: 80 < deg < 100 <- don't move
                     if deg_degree > 90+error:
+                        print("auto left")
                         self.send_to_arduino(self.commands['left'])
                         self.send_to_arduino(self.commands['stop'])
                     elif deg_degree < 90-error:
+                        print("auto right")
                         self.send_to_arduino(self.commands['right'])
                         self.send_to_arduino(self.commands['stop'])
                     else:
