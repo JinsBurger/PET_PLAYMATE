@@ -6,6 +6,7 @@ Distance::Distance(int tp, int ep) {
     ECHO_PIN = ep;
 
     pinMode(ECHO_PIN, INPUT); 
+    pinMode(TRIG_PIN, OUTPUT);
 }
 
 /// Returns distance calculated using ultrasonic

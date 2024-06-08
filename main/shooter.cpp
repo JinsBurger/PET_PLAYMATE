@@ -7,6 +7,8 @@ Shooter::Shooter(int motorIn, int motorOut, int speed) {
   PIN_MOTOR_SPEED = speed;
   
   pinMode(PIN_MOTOR_SPEED, OUTPUT);
+  pinMode(PIN_MOTOR_IN, OUTPUT);
+  pinMode(PIN_MOTOR_OUT, OUTPUT);
 }
 
 /// Start shooting balls
