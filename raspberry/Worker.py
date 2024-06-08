@@ -125,9 +125,7 @@ class ArduinoWorker(threading.Thread):
 
     def run(self):
         while True:
-            print("auto move", self.comm_flags["auto_move"])
-
-            if self.comm_flags["auto_move"]:
+            if self.comm_flags["auto_move"] == True:
                 success, img = self.cap.read()            
                 dog_coordinate = self.getObjects(img, 0.5, 0.25, objects=['dog'])
 
@@ -135,6 +133,7 @@ class ArduinoWorker(threading.Thread):
                     centerx = dog_coordinate[0]
                     deg_degree = np.interp(centerx, [0, 480], [0, 180])
                     error = 20 // 2
+                    print("deg_degree: %d" % deg_degree)
                     
                     # deg with error=10: 80 < deg < 100 <- don't move
                     if deg_degree > 90+error:
@@ -147,7 +146,7 @@ class ArduinoWorker(threading.Thread):
                         pass
                 #else:
                 #    print("Not found")
-                time.sleep(0.3)
+                #time.sleep(0.3)
             else:
                 time.sleep(1)
 
