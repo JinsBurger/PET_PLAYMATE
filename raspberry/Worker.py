@@ -84,7 +84,7 @@ class ArduinoWorker(threading.Thread):
         self.comm_flags = {"auto_move": False}
 
         self.classNames = []
-        classFile = "./coco.names"
+        classFile = "./Object_Detection_Files/coco.names"
         with open(classFile, "rt") as f:
             self.classNames = f.read().rstrip("\n").split("\n")
 
