@@ -84,8 +84,10 @@ class ArduinoWorker(threading.Thread):
 
         self.comm_flags = {"auto_move": False}
         self.commands = {
-            'forward': b'1',
-            'backward': b'2',
+            'auto_forward': b'1',
+            'auto_backward': b'2',
+            'manual_forward': b'8',
+            'manual_backward': b'9',
             'left': b'3',
             'right': b'4',
             'stop':  b'5',
@@ -160,7 +162,15 @@ class ArduinoWorker(threading.Thread):
                     self.comm_flags["auto_move"] = not self.comm_flags["auto_move"]
 
                 else:
-                    self.arduino_comm.send(chr(int(data["number"])).encode())
+                    cmd = data["number"]
+
+                    if data["number"] == b'1':
+                        cmd = self.commands["manual_forward"]
+                    if data["number"] == b'2':
+                        cmd = self.commands["manual_backward"]
+
+                    print("to_comm", cmd)
+                    self.arduino_comm.send(chr(int(cmd)).encode())
                 
             except websockets.exceptions.ConnectionClosed:
                 print("Video Socket Closed")
