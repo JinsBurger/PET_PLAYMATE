@@ -130,11 +130,13 @@ class ArduinoWorker(threading.Thread):
                 if len(dog_coordinate) != 0:
                     centerx = abs(dog_coordinate[2] - dog_coordinate[0])
                     degree = np.interp(centerx, [0, 480], [0, 180])
-                    # deg > 90: left,  90=front, deg < 90, right
-                    if degree > 90:
+                    error = 20 // 2
+                    print(degree)
+                    # deg with error=10: 80 < deg < 100 <- don't move
+                    if degree > 90+error:
                         self.send_to_arduino(self.commands['left'])
                         self.send_to_arduino(self.commands['stop'])
-                    elif degree < 90:
+                    elif degree < 90-error:
                         self.send_to_arduino(self.commands['right'])
                         self.send_to_arduino(self.commands['stop'])
                     else:
