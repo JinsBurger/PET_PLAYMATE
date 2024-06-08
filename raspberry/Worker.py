@@ -165,7 +165,7 @@ class ArduinoWorker(threading.Thread):
                 print("RECV COMMAND: %d" % data["number"])
                 if int(data["number"]) == 8: # set auto move
                     self.comm_flags["auto_move"] = not self.comm_flags["auto_move"]
-                    
+                    cmd = 10 + (self.comm_flags["auto_move"] == False)
                 else:
                     cmd = data["number"]
                     if data["number"] == 1:
