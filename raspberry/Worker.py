@@ -84,15 +84,15 @@ class ArduinoWorker(threading.Thread):
 
         self.comm_flags = {"auto_move": False}
         self.commands = {
-            'auto_forward': b'1',
-            'auto_backward': b'2',
-            'manual_forward': b'8',
-            'manual_backward': b'9',
-            'left': b'3',
-            'right': b'4',
-            'stop':  b'5',
-            'shoot': b'6',
-            'shoot_stop': b'7'
+            'auto_forward': 1,
+            'auto_backward': 2,
+            'manual_forward': 8,
+            'manual_backward': 9,
+            'left': 3,
+            'right': 4,
+            'stop':  5,
+            'shoot': 6,
+            'shoot_stop': 7
         }
 
         self.classNames = []
@@ -107,9 +107,8 @@ class ArduinoWorker(threading.Thread):
         self.net.setInputSwapRB(True)
 
 
-    def send_to_arduino(self, data):
-        if isinstance(data, bytes):
-            data = chr(int(data))
+    def send_num_to_arduino(self, data: int):
+        data = chr(int(data)).encode()
         self.arduino_comm.send(data)
 
     def getObjects(self, img, thres, nms, objects=[]):
@@ -140,12 +139,12 @@ class ArduinoWorker(threading.Thread):
                     # deg with error=10: 80 < deg < 100 <- don't move
                     if deg_degree > 90+error:
                         print("auto left")
-                        self.send_to_arduino(self.commands['left'])
-                        self.send_to_arduino(self.commands['stop'])
+                        self.send_num_to_arduino(self.commands['left'])
+                        self.send_num_to_arduino(self.commands['stop'])
                     elif deg_degree < 90-error:
                         print("auto right")
-                        self.send_to_arduino(self.commands['right'])
-                        self.send_to_arduino(self.commands['stop'])
+                        self.send_num_to_arduino(self.commands['right'])
+                        self.send_num_to_arduino(self.commands['stop'])
                     else:
                         pass
                 #else:
@@ -174,7 +173,7 @@ class ArduinoWorker(threading.Thread):
                         cmd = self.commands["manual_backward"]
 
                 print("to_comm", cmd)
-                self.arduino_comm.send(chr(int(cmd)).encode())
+                self.send_num_to_arduino(cmd)
                 
             except websockets.exceptions.ConnectionClosed:
                 print("Video Socket Closed")
